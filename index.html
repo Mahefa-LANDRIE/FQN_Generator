@@ -49,7 +49,7 @@
             display: block;
         }
 
-        /* POLICE DE CARACTÈRE */
+        /* POLICE DE CARACTÈRE - Copie collé amin'ny original */
         .content-layer {
             position: absolute;
             top: 0;
@@ -67,7 +67,6 @@
         /* TEXT FIELDS ABSOLUTE POSITIONING */
         .field { position: absolute; white-space: nowrap; }
         
-        /* Ny soratra rehetra dia manomboka eo amin'ny left: 285px */
         .f-1 { top: 78px; left: 285px; }
         .f-2 { top: 122px; left: 285px; }
         
@@ -83,21 +82,20 @@
         .f-5a { top: 320px; left: 285px; }
         .f-5b { top: 355px; left: 285px; }
 
-        /* PHOTO UPLOAD - Apetaka ambanin'ny "D" ary tsy avela hikasika ny 285px */
+        /* PHOTO UPLOAD - Namboarina mba ho madio ny sisiny rehetra */
         .photo-container {
             position: absolute;
-            top: 120px; /* Nakarina mba hipetaka tsara eo ambanin'ilay manga misy ny "D" */
-            left: 20px; /* Mifanitsy amin'ny sisin'ny manga eo amboniny */
-            width: 220px; /* Voafetra ny sakany ka tsy hikasika ny soratra mihitsy */
-            height: 290px;
+            top: 135px; /* Nampidinina kely mba tsy hifanindry amin'ny cadre "D" */
+            left: 30px; /* Navosotra tsara mba hitovy alignement */
+            width: 210px; /* Voafetra ny sakany -> TSY KASIKA INTSONY NY SORATRA eo amin'ny 285px */
+            height: 275px;
             z-index: 2;
             
-            /* Mitazona ny qualité mba tsy ho tapaka ny sofina */
-            background-size: contain; 
-            background-position: top center; 
+            background-size: cover; 
+            background-position: center; 
             background-repeat: no-repeat;
             
-            /* Mampiseho ny tsipika an-damosina */
+            /* Ny 'multiply' mampipoitra ny tsipika original amin'ny karatra */
             mix-blend-mode: multiply;
         }
 
