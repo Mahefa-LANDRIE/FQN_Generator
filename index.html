@@ -49,7 +49,7 @@
             display: block;
         }
 
-        /* POLICE DE CARACTÈRE - Copie collé amin'ny original */
+        /* POLICE DE CARACTÈRE */
         .content-layer {
             position: absolute;
             top: 0;
@@ -67,6 +67,7 @@
         /* TEXT FIELDS ABSOLUTE POSITIONING */
         .field { position: absolute; white-space: nowrap; }
         
+        /* Nafindra ho 285px avokoa mba hisy elanelana tsara amin'ny sary */
         .f-1 { top: 78px; left: 285px; }
         .f-2 { top: 122px; left: 285px; }
         
@@ -82,20 +83,21 @@
         .f-5a { top: 320px; left: 285px; }
         .f-5b { top: 355px; left: 285px; }
 
-        /* PHOTO UPLOAD - Namboarina mba ho madio ny sisiny rehetra */
+        /* PHOTO UPLOAD - Namboarina mba ho parallèle ary tsy hifanindry */
         .photo-container {
             position: absolute;
-            top: 135px; /* Nampidinina kely mba tsy hifanindry amin'ny cadre "D" */
-            left: 30px; /* Navosotra tsara mba hitovy alignement */
-            width: 210px; /* Voafetra ny sakany -> TSY KASIKA INTSONY NY SORATRA eo amin'ny 285px */
-            height: 275px;
+            top: 132px; /* Apetaka tsara eo ambanin'ny cadre manga "D" */
+            left: 22px; /* Ampifanitsiana tsara amin'ny sisin'ny cadre manga ankavia */
+            width: 236px; /* Sakany mitovy amin'ny cadre manga mba ho parallèle tsara */
+            height: 305px;
             z-index: 2;
             
+            /* Cover no ampiasaina mba hameno tsara ilay efajoro ny sary (mahitsy ny sisiny rehetra) */
             background-size: cover; 
-            background-position: center; 
+            background-position: center top; 
             background-repeat: no-repeat;
             
-            /* Ny 'multiply' mampipoitra ny tsipika original amin'ny karatra */
+            /* Mampipoitra ny tsipika original amin'ny karatra ao ambadiky ny sary */
             mix-blend-mode: multiply;
         }
 
@@ -258,7 +260,7 @@
             });
         });
 
-        // Script manamboatra ny sary ho Noir et Blanc
+        // Script manamboatra ny sary ho Noir et Blanc madio
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
