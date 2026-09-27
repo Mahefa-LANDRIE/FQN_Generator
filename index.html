@@ -61,7 +61,7 @@
             color: #111;
         }
 
-        /* TEXT FIELDS ABSOLUTE POSITIONING (Voatazona tsara ny alignement) */
+        /* TEXT FIELDS ABSOLUTE POSITIONING */
         .field { position: absolute; white-space: nowrap; }
         
         .f-1 { top: 78px; left: 295px; }
@@ -79,7 +79,7 @@
         .f-5a { top: 320px; left: 295px; }
         .f-5b { top: 355px; left: 295px; }
 
-        /* PHOTO UPLOAD */
+        /* PHOTO UPLOAD - Namboarina mba ho sary noir et blanc madio tsy hifangaro am-badika */
         .photo-container {
             position: absolute;
             top: 135px;
@@ -90,17 +90,17 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            mix-blend-mode: multiply;
-            opacity: 0.85;
-            filter: grayscale(100%) contrast(1.2) brightness(1.1);
+            /* Nesorina ilay mix-blend-mode sy opacity mba hanafina ny soratra ao ambadika */
+            filter: grayscale(100%) contrast(1.1) brightness(1.05);
+            background-color: #fff; /* Miantoka fa fotsy ny lamosiny raha toa ka misy banga */
         }
 
-        /* SIGNATURE (Nohalehibiazina ary nampifanitsiana tsara) */
+        /* SIGNATURE */
         .signature-display {
             position: absolute;
             top: 385px;
-            left: 295px; /* Nampifanitsiana amin'ny soratra ambony */
-            width: 360px; /* Natao ngezangeza kokoa */
+            left: 295px; 
+            width: 360px; 
             height: 110px;
             z-index: 3;
             background-size: contain;
@@ -130,7 +130,7 @@
         
         .full-width { grid-column: span 2; }
 
-        /* SIGNATURE PAD FIX (Voafetra tsara ny refiny mba tsy hi-déformer ny sary) */
+        /* SIGNATURE PAD FIX */
         .canvas-container {
             border: 1px solid #000;
             background: #fff;
@@ -138,7 +138,7 @@
             cursor: crosshair;
             width: 400px;
             height: 100px;
-            touch-action: none; /* Manakana ny ecran tsy hihetsika rehefa manao sonia amin'ny telephone */
+            touch-action: none;
         }
 
         .buttons { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
@@ -255,7 +255,7 @@
             });
         });
 
-        // Photo Upload via Background Image (Prevents Stretching)
+        // Photo Upload via Background Image
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -272,11 +272,10 @@
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
 
-        ctx.lineWidth = 2.5; // Natao manify kely ny tsipika mba ho tsara endrika rehefa ngeza
+        ctx.lineWidth = 2.5; 
         ctx.lineCap = 'round';
         ctx.strokeStyle = '#000';
 
-        // Fanitsiana ny coordination an'ny canvas mba tsy hi-déformer intsony
         function getMousePos(e) {
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
@@ -336,7 +335,7 @@
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'FQN_Card.jpg';
-                link.href = canvas.toDataURL('image/jpeg', 0.88); // 400kb-500kb
+                link.href = canvas.toDataURL('image/jpeg', 0.88); 
                 link.click();
             });
         }
