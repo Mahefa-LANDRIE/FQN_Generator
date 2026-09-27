@@ -80,19 +80,18 @@
         .f-5a { top: 320px; left: 295px; }
         .f-5b { top: 355px; left: 295px; }
 
-        /* PHOTO UPLOAD - Nampifanitsiana amin'ny sisin'ny logo "D" (left: 22px) */
+        /* PHOTO UPLOAD - Namboarina ny sakany mba tsy hifanindry amin'ny soratra */
         .photo-container {
             position: absolute;
             top: 135px;
-            left: 22px; /* Mifanitsy amin'ny cadre "D" */
-            width: 215px; 
+            left: 22px; 
+            width: 190px; /* Natao 190px ny sakany mba hanalavitra ny laharana */
             height: 285px;
             z-index: 2;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* Tsy mampiasa filter intsony fa opacity fotsiny satria efa hovaina Noir et blanc anaty Javascript ilay sary */
-            opacity: 0.85; /* Mampipoitra ny tsipika ao ambadika */
+            opacity: 0.85; 
         }
 
         /* SIGNATURE */
@@ -106,7 +105,7 @@
             background-size: contain;
             background-position: center left;
             background-repeat: no-repeat;
-            mix-blend-mode: multiply; /* Mety tsara ho an'ny sonia mainty */
+            mix-blend-mode: multiply; 
         }
 
         /* FORM STYLES */
@@ -254,7 +253,7 @@
             });
         });
 
-        // Fomba vaovao hanovana ny sary ho Noir et Blanc tanteraka ao anaty Canvas alohan'ny hametahana azy
+        // Script mamadika ny sary ho Noir et Blanc tanteraka alohan'ny hametahana azy
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -271,16 +270,14 @@
                         const imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
                         const data = imgData.data;
                         
-                        // Avadika Noir et Blanc ny pixels tsirairay
                         for (let i = 0; i < data.length; i += 4) {
                             const avg = (data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114);
-                            data[i] = avg;     // Red
-                            data[i+1] = avg;   // Green
-                            data[i+2] = avg;   // Blue
+                            data[i] = avg;     
+                            data[i+1] = avg;   
+                            data[i+2] = avg;   
                         }
                         
                         tempCtx.putImageData(imgData, 0, 0);
-                        // Apetaka amin'ny preview ny sary efa Noir et Blanc tena izy
                         document.getElementById('photoPreview').style.backgroundImage = `url(${tempCanvas.toDataURL()})`;
                     }
                     img.src = event.target.result;
@@ -289,7 +286,6 @@
             }
         });
 
-        // Signature logic...
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
@@ -345,14 +341,13 @@
             document.getElementById('sigPreview').style.backgroundImage = 'none';
         }
 
-        // Export to JPEG
         function downloadJPEG() {
             const card = document.getElementById('cardElement');
             
             html2canvas(card, { 
                 scale: 2.5, 
                 useCORS: true, 
-                allowTaint: true, // tena ilaina mba hisehoan'ilay background
+                allowTaint: true, 
                 backgroundColor: "#ffffff"
             }).then(canvas => {
                 const link = document.createElement('a');
