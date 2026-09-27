@@ -57,7 +57,7 @@
             height: 100%;
             z-index: 2;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 22px;
+            font-size: 21px; /* Natao mitovy habe amin'ny modely */
             color: #111;
         }
 
@@ -79,20 +79,20 @@
         .f-5a { top: 320px; left: 295px; }
         .f-5b { top: 355px; left: 295px; }
 
-        /* PHOTO UPLOAD - Namboarina mba ho sary noir et blanc madio tsy hifangaro am-badika */
+        /* PHOTO UPLOAD - Namboarina ny toerany mba tsy hikasika ny soratra */
         .photo-container {
             position: absolute;
-            top: 135px;
-            left: 20px;
-            width: 220px;
-            height: 285px;
+            top: 140px;
+            left: 30px; /* Nafindra kely miankavanana */
+            width: 195px; /* Nohenanina ny sakany */
+            height: 265px;
             z-index: 2;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* Nesorina ilay mix-blend-mode sy opacity mba hanafina ny soratra ao ambadika */
-            filter: grayscale(100%) contrast(1.1) brightness(1.05);
-            background-color: #fff; /* Miantoka fa fotsy ny lamosiny raha toa ka misy banga */
+            /* Averina nasiana fangarony mba hivoahan'ny tsipika an-damosina toy ny original */
+            filter: grayscale(100%) contrast(1.2) brightness(1.1);
+            mix-blend-mode: multiply;
         }
 
         /* SIGNATURE */
@@ -247,7 +247,6 @@
     </div>
 
     <script>
-        // Bind Text Inputs
         const fields = ['1', '2', '3', '3-place', '4a', '4b', '4c', '4c-2', '5a', '5b'];
         fields.forEach(id => {
             document.getElementById(`in-${id}`).addEventListener('input', function() {
@@ -255,7 +254,6 @@
             });
         });
 
-        // Photo Upload via Background Image
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -267,7 +265,6 @@
             }
         });
 
-        // Signature Pad Logic
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
@@ -323,7 +320,6 @@
             document.getElementById('sigPreview').style.backgroundImage = 'none';
         }
 
-        // Export to JPEG
         function downloadJPEG() {
             const card = document.getElementById('cardElement');
             
@@ -335,7 +331,8 @@
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'FQN_Card.jpg';
-                link.href = canvas.toDataURL('image/jpeg', 0.88); 
+                // 0.92 dia mamoaka sary tena tsara kalitao manodidina ny 500ko
+                link.href = canvas.toDataURL('image/jpeg', 0.92); 
                 link.click();
             });
         }
