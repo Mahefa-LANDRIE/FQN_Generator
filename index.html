@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FQN Card Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* CARD STYLES */
+        .card-wrapper {
+            position: relative;
+            width: 856px;
+            height: 540px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        .bg-fixed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            filter: contrast(1.15) brightness(1.05) saturate(1.1);
+            object-fit: cover;
+        }
+
+        .content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+        }
+
+        /* TEXT FIELDS ABSOLUTE POSITIONING */
+        .field { position: absolute; white-space: nowrap; }
+        
+        .f-1 { top: 78px; left: 310px; }
+        .f-2 { top: 135px; left: 310px; }
+        .f-3 { top: 165px; left: 310px; }
+        .f-4a { top: 205px; left: 310px; }
+        .f-4b { top: 205px; left: 575px; }
+        
+        .f-4c { top: 245px; left: 310px; }
+        .f-4c-2 { top: 275px; left: 310px; }
+        
+        .f-5a { top: 315px; left: 310px; }
+        .f-5b { top: 345px; left: 310px; }
+
+        /* PHOTO UPLOAD */
+        .photo-container {
+            position: absolute;
+            top: 135px;
+            left: 20px;
+            width: 220px;
+            height: 285px;
+            z-index: 2;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            mix-blend-mode: multiply;
+            opacity: 0.85;
+            filter: grayscale(100%) contrast(1.2) brightness(1.1);
+        }
+
+        /* SIGNATURE */
+        .signature-display {
+            position: absolute;
+            top: 400px;
+            left: 320px;
+            width: 250px;
+            height: 80px;
+            z-index: 3;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            mix-blend-mode: multiply;
+        }
+
+        /* FORM STYLES */
+        .form-section {
+            width: 100%;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+        .form-group input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+        
+        .full-width { grid-column: span 2; }
+
+        /* SIGNATURE PAD */
+        .canvas-container {
+            border: 1px solid #000;
+            background: #fff;
+            margin-top: 5px;
+            cursor: crosshair;
+        }
+
+        .buttons { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+        .btn { padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; }
+        .btn-clear { background-color: #6b7280; }
+        .btn-dl { background-color: #10b981; font-size: 16px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <!-- CARD PREVIEW -->
+        <div class="card-wrapper" id="cardElement">
+            <img src="driver license_3.jpg" class="bg-fixed" alt="Template" crossorigin="anonymous">
+            
+            <div class="photo-container" id="photoPreview"></div>
+            
+            <div class="content-layer">
+                <div class="field f-1" id="text-1">Mustermann</div>
+                <div class="field f-2" id="text-2">Erika</div>
+                <div class="field f-3" id="text-3">12.08.64</div>
+                <div class="field f-4a" id="text-4a">14.06.22</div>
+                <div class="field f-4b" id="text-4b">13.06.27</div>
+                <div class="field f-4c" id="text-4c">Landratsamt</div>
+                <div class="field f-4c-2" id="text-4c-2">Musterhausen am See</div>
+                <div class="field f-5a" id="text-5a">Z021AB42F94</div>
+                <div class="field f-5b" id="text-5b">FQNZ0214A713X1</div>
+            </div>
+            
+            <div class="signature-display" id="sigPreview"></div>
+        </div>
+
+        <!-- INPUT FORM -->
+        <div class="form-section">
+            <h2 style="margin-top: 0;">Fill out the card</h2>
+            
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label>ID Photo (Portrait)</label>
+                    <input type="file" id="photoInput" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>1. Last Name</label>
+                    <input type="text" id="in-1" value="Mustermann">
+                </div>
+                <div class="form-group">
+                    <label>2. First Name</label>
+                    <input type="text" id="in-2" value="Erika">
+                </div>
+                
+                <div class="form-group">
+                    <label>3. Date of Birth</label>
+                    <input type="text" id="in-3" value="12.08.64">
+                </div>
+                <div class="form-group">
+                    <label>4a. Issue Date</label>
+                    <input type="text" id="in-4a" value="14.06.22">
+                </div>
+                
+                <div class="form-group">
+                    <label>4b. Expiry Date</label>
+                    <input type="text" id="in-4b" value="13.06.27">
+                </div>
+                <div class="form-group">
+                    <label>5a. License Number</label>
+                    <input type="text" id="in-5a" value="Z021AB42F94">
+                </div>
+
+                <div class="form-group full-width">
+                    <label>4c. Issuing Authority (Line 1)</label>
+                    <input type="text" id="in-4c" value="Landratsamt">
+                </div>
+                <div class="form-group full-width">
+                    <label>4c. Issuing Authority (Line 2)</label>
+                    <input type="text" id="in-4c-2" value="Musterhausen am See">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label>5b. FQN Number</label>
+                    <input type="text" id="in-5b" value="FQNZ0214A713X1">
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Signature (Draw below)</label>
+                    <canvas id="sigCanvas" width="400" height="100" class="canvas-container"></canvas>
+                    <button class="btn btn-clear" onclick="clearSignature()" style="width: 150px; margin-top: 10px;">Clear Signature</button>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-dl" onclick="downloadJPEG()">Download JPEG</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Bind Text Inputs
+        const fields = ['1', '2', '3', '4a', '4b', '4c', '4c-2', '5a', '5b'];
+        fields.forEach(id => {
+            document.getElementById(`in-${id}`).addEventListener('input', function() {
+                document.getElementById(`text-${id}`).textContent = this.value;
+            });
+        });
+
+        // Photo Upload via Background Image (Prevents Stretching)
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('photoPreview').style.backgroundImage = `url(${event.target.result})`;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Signature Pad Logic
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000';
+
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (e.clientX || e.touches[0].clientX) - rect.left,
+                y: (e.clientY || e.touches[0].clientY) - rect.top
+            };
+        }
+
+        const startDrawing = (e) => {
+            isDrawing = true;
+            const pos = getMousePos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        };
+
+        const draw = (e) => {
+            if (!isDrawing) return;
+            const pos = getMousePos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            updateSignaturePreview();
+            e.preventDefault();
+        };
+
+        const stopDrawing = () => { isDrawing = false; };
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        canvas.addEventListener('touchstart', startDrawing, {passive: false});
+        canvas.addEventListener('touchmove', draw, {passive: false});
+        canvas.addEventListener('touchend', stopDrawing);
+
+        function updateSignaturePreview() {
+            document.getElementById('sigPreview').style.backgroundImage = `url(${canvas.toDataURL()})`;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('sigPreview').style.backgroundImage = 'none';
+        }
+
+        // Export to JPEG
+        function downloadJPEG() {
+            const card = document.getElementById('cardElement');
+            
+            html2canvas(card, { 
+                scale: 2.5, 
+                useCORS: true, 
+                allowTaint: true,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'FQN_Card.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.88);
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
