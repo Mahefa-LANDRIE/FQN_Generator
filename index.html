@@ -67,37 +67,35 @@
         /* TEXT FIELDS ABSOLUTE POSITIONING */
         .field { position: absolute; white-space: nowrap; }
         
-        /* Nafindra ho 285px avokoa mba hisy elanelana tsara amin'ny sary */
-        .f-1 { top: 78px; left: 285px; }
-        .f-2 { top: 122px; left: 285px; }
+        .f-1 { top: 78px; left: 300px; }
+        .f-2 { top: 122px; left: 300px; }
         
-        .f-3 { top: 162px; left: 285px; }
+        .f-3 { top: 162px; left: 300px; }
         .f-3-place { top: 162px; left: 520px; } 
         
-        .f-4a { top: 202px; left: 285px; }
+        .f-4a { top: 202px; left: 300px; }
         .f-4b { top: 202px; left: 550px; }
         
-        .f-4c { top: 242px; left: 285px; }
-        .f-4c-2 { top: 275px; left: 285px; }
+        .f-4c { top: 242px; left: 300px; }
+        .f-4c-2 { top: 275px; left: 300px; }
         
-        .f-5a { top: 320px; left: 285px; }
-        .f-5b { top: 355px; left: 285px; }
+        .f-5a { top: 320px; left: 300px; }
+        .f-5b { top: 355px; left: 300px; }
 
-        /* PHOTO UPLOAD - Namboarina mba ho parallèle ary tsy hifanindry */
+        /* PHOTO UPLOAD - ETO NY VAHAAOLANA */
         .photo-container {
             position: absolute;
-            top: 132px; /* Apetaka tsara eo ambanin'ny cadre manga "D" */
-            left: 22px; /* Ampifanitsiana tsara amin'ny sisin'ny cadre manga ankavia */
-            width: 236px; /* Sakany mitovy amin'ny cadre manga mba ho parallèle tsara */
-            height: 305px;
+            top: 135px; /* Manomboka eo ambanin'ny cadre manga */
+            left: 22px; /* Mifanitsy amin'ny cadre manga "D" eo amin'ny ilany ankavia */
+            width: 195px; /* NAHENANA NY SAKANY mba hitovy tanteraka amin'ny sakan'ilay cadre manga, ka TSY HIKASIKA IREO LAHARANA INTSONY! */
+            height: 270px;
             z-index: 2;
             
-            /* Cover no ampiasaina mba hameno tsara ilay efajoro ny sary (mahitsy ny sisiny rehetra) */
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat;
             
-            /* Mampipoitra ny tsipika original amin'ny karatra ao ambadiky ny sary */
+            /* Mitazona ny tsipika hita taratra */
             mix-blend-mode: multiply;
         }
 
@@ -260,7 +258,7 @@
             });
         });
 
-        // Script manamboatra ny sary ho Noir et Blanc madio
+        // Mamadika ho Noir et Blanc madio
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
