@@ -56,21 +56,19 @@
             width: 100%;
             height: 100%;
             z-index: 2;
-            /* Novaina Arial ny font mba hitovy amin'ilay sary reference */
             font-family: Arial, Helvetica, sans-serif;
             font-size: 22px;
             color: #111;
         }
 
-        /* TEXT FIELDS ABSOLUTE POSITIONING */
+        /* TEXT FIELDS ABSOLUTE POSITIONING (Voatazona tsara ny alignement) */
         .field { position: absolute; white-space: nowrap; }
         
-        /* Nampifanitsiana mahitsy amin'ny 'left: 295px' avokoa ny andalana ankavia */
         .f-1 { top: 78px; left: 295px; }
         .f-2 { top: 122px; left: 295px; }
         
         .f-3 { top: 162px; left: 295px; }
-        .f-3-place { top: 162px; left: 505px; } /* Toerana nahaterahana (Berlin) */
+        .f-3-place { top: 162px; left: 505px; } 
         
         .f-4a { top: 202px; left: 295px; }
         .f-4b { top: 202px; left: 530px; }
@@ -97,16 +95,16 @@
             filter: grayscale(100%) contrast(1.2) brightness(1.1);
         }
 
-        /* SIGNATURE - Napetraka eo amin'ny faritra faha-7 */
+        /* SIGNATURE (Nohalehibiazina ary nampifanitsiana tsara) */
         .signature-display {
             position: absolute;
-            top: 395px;
-            left: 270px;
-            width: 250px;
-            height: 75px;
+            top: 385px;
+            left: 295px; /* Nampifanitsiana amin'ny soratra ambony */
+            width: 360px; /* Natao ngezangeza kokoa */
+            height: 110px;
             z-index: 3;
             background-size: contain;
-            background-position: center;
+            background-position: center left;
             background-repeat: no-repeat;
             mix-blend-mode: multiply;
         }
@@ -132,12 +130,15 @@
         
         .full-width { grid-column: span 2; }
 
-        /* SIGNATURE PAD */
+        /* SIGNATURE PAD FIX (Voafetra tsara ny refiny mba tsy hi-déformer ny sary) */
         .canvas-container {
             border: 1px solid #000;
             background: #fff;
             margin-top: 5px;
             cursor: crosshair;
+            width: 400px;
+            height: 100px;
+            touch-action: none; /* Manakana ny ecran tsy hihetsika rehefa manao sonia amin'ny telephone */
         }
 
         .buttons { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
@@ -271,15 +272,18 @@
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
 
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5; // Natao manify kely ny tsipika mba ho tsara endrika rehefa ngeza
         ctx.lineCap = 'round';
         ctx.strokeStyle = '#000';
 
+        // Fanitsiana ny coordination an'ny canvas mba tsy hi-déformer intsony
         function getMousePos(e) {
             const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
             return {
-                x: (e.clientX || e.touches[0].clientX) - rect.left,
-                y: (e.clientY || e.touches[0].clientY) - rect.top
+                x: ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) * scaleX,
+                y: ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) * scaleY
             };
         }
 
@@ -288,7 +292,7 @@
             const pos = getMousePos(e);
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
-            e.preventDefault();
+            if(e.type.includes('touch')) e.preventDefault();
         };
 
         const draw = (e) => {
@@ -297,7 +301,7 @@
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
             updateSignaturePreview();
-            e.preventDefault();
+            if(e.type.includes('touch')) e.preventDefault();
         };
 
         const stopDrawing = () => { isDrawing = false; };
