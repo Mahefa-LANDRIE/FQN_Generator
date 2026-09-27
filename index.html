@@ -58,43 +58,45 @@
             height: 100%;
             z-index: 2;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 22px; 
-            font-weight: 400; /* Natao tsotra (normal) fa tsy matevina intsony */
-            color: #000; /* Mainty mangirana */
-            letter-spacing: -0.2px; /* Mampihenjana kely azy hitovy amin'ny milina printy */
+            font-size: 23px; 
+            font-weight: bold; /* Natao matevina kely hitovy amin'ny original */
+            color: #1a1a1a; /* Mainty saika ho tena mangirana */
+            letter-spacing: -0.3px; /* Mampihenjana kely azy hitovy amin'ny milina printy */
         }
 
-        /* TEXT FIELDS ABSOLUTE POSITIONING */
+        /* TEXT FIELDS ABSOLUTE POSITIONING - Nampifanitsiana tonga lafatra */
         .field { position: absolute; white-space: nowrap; }
         
-        .f-1 { top: 78px; left: 295px; }
-        .f-2 { top: 122px; left: 295px; }
+        .f-1 { top: 78px; left: 285px; }
+        .f-2 { top: 122px; left: 285px; }
         
-        .f-3 { top: 162px; left: 295px; }
-        .f-3-place { top: 162px; left: 505px; } 
+        .f-3 { top: 162px; left: 285px; }
+        .f-3-place { top: 162px; left: 520px; } 
         
-        .f-4a { top: 202px; left: 295px; }
-        .f-4b { top: 202px; left: 530px; }
+        .f-4a { top: 202px; left: 285px; }
+        .f-4b { top: 202px; left: 550px; }
         
-        .f-4c { top: 242px; left: 295px; }
-        .f-4c-2 { top: 275px; left: 295px; }
+        .f-4c { top: 242px; left: 285px; }
+        .f-4c-2 { top: 275px; left: 285px; }
         
-        .f-5a { top: 320px; left: 295px; }
-        .f-5b { top: 355px; left: 295px; }
+        .f-5a { top: 320px; left: 285px; }
+        .f-5b { top: 355px; left: 285px; }
 
-        /* PHOTO UPLOAD - Namboarina mba hipoitra ny tsipika ary tsy hikasika ny laharana */
+        /* PHOTO UPLOAD - Namboarina hamoaka ny sofina manontolo */
         .photo-container {
             position: absolute;
             top: 135px;
-            left: 22px; 
-            width: 190px; /* Cadrage notehirizina tsy hihoatra ny laharana */
+            left: 20px; 
+            width: 220px; /* Cadrage notehirizina tsy hihoatra ny laharana */
             height: 285px;
             z-index: 2;
-            background-size: cover;
+            
+            /* 'contain' dia miantoka fa miditra manontolo ny sary (tsy misy tapaka ny sofina na ny volo) */
+            background-size: contain; 
             background-position: center;
             background-repeat: no-repeat;
             
-            /* Eto ny zava-miafina: Ny 'multiply' dia mamono ny fotsy rehetra amin'ilay sary ka mamela ny tsipika background hita taratra tahaka ny tany am-boalohany */
+            /* Ny 'multiply' dia mamono ny fotsy rehetra amin'ilay sary ka mamela ny tsipika background hita taratra */
             mix-blend-mode: multiply;
         }
 
@@ -257,7 +259,7 @@
             });
         });
 
-        // Script manamboatra ny sary ho Noir et Blanc tena madio sady milalao ny contrast
+        // Script manamboatra ny sary ho Noir et Blanc tena madio
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -270,8 +272,7 @@
                         tempCanvas.width = img.width;
                         tempCanvas.height = img.height;
                         
-                        // Fomba azo antoka indrindra ahazoana vokatra "Noir et Blanc" madio ampiasana Javascript filter
-                        tempCtx.filter = 'grayscale(100%) contrast(130%) brightness(110%)';
+                        tempCtx.filter = 'grayscale(100%) contrast(120%) brightness(105%)';
                         tempCtx.drawImage(img, 0, 0);
                         
                         document.getElementById('photoPreview').style.backgroundImage = `url(${tempCanvas.toDataURL('image/jpeg', 0.95)})`;
