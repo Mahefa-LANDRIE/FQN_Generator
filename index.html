@@ -49,6 +49,7 @@
             display: block;
         }
 
+        /* POLICE DE CARACTÈRE - Natao copie collé amin'ny original */
         .content-layer {
             position: absolute;
             top: 0;
@@ -57,9 +58,10 @@
             height: 100%;
             z-index: 2;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 23px; 
-            font-weight: 500;
-            color: #111;
+            font-size: 22px; 
+            font-weight: 400; /* Natao tsotra (normal) fa tsy matevina intsony */
+            color: #000; /* Mainty mangirana */
+            letter-spacing: -0.2px; /* Mampihenjana kely azy hitovy amin'ny milina printy */
         }
 
         /* TEXT FIELDS ABSOLUTE POSITIONING */
@@ -80,18 +82,20 @@
         .f-5a { top: 320px; left: 295px; }
         .f-5b { top: 355px; left: 295px; }
 
-        /* PHOTO UPLOAD - Namboarina ny sakany mba tsy hifanindry amin'ny soratra */
+        /* PHOTO UPLOAD - Namboarina mba hipoitra ny tsipika ary tsy hikasika ny laharana */
         .photo-container {
             position: absolute;
             top: 135px;
             left: 22px; 
-            width: 190px; /* Natao 190px ny sakany mba hanalavitra ny laharana */
+            width: 190px; /* Cadrage notehirizina tsy hihoatra ny laharana */
             height: 285px;
             z-index: 2;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.85; 
+            
+            /* Eto ny zava-miafina: Ny 'multiply' dia mamono ny fotsy rehetra amin'ilay sary ka mamela ny tsipika background hita taratra tahaka ny tany am-boalohany */
+            mix-blend-mode: multiply;
         }
 
         /* SIGNATURE */
@@ -129,7 +133,7 @@
         
         .full-width { grid-column: span 2; }
 
-        /* SIGNATURE PAD FIX */
+        /* SIGNATURE PAD */
         .canvas-container {
             border: 1px solid #000;
             background: #fff;
@@ -253,7 +257,7 @@
             });
         });
 
-        // Script mamadika ny sary ho Noir et Blanc tanteraka alohan'ny hametahana azy
+        // Script manamboatra ny sary ho Noir et Blanc tena madio sady milalao ny contrast
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -266,19 +270,11 @@
                         tempCanvas.width = img.width;
                         tempCanvas.height = img.height;
                         
+                        // Fomba azo antoka indrindra ahazoana vokatra "Noir et Blanc" madio ampiasana Javascript filter
+                        tempCtx.filter = 'grayscale(100%) contrast(130%) brightness(110%)';
                         tempCtx.drawImage(img, 0, 0);
-                        const imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-                        const data = imgData.data;
                         
-                        for (let i = 0; i < data.length; i += 4) {
-                            const avg = (data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114);
-                            data[i] = avg;     
-                            data[i+1] = avg;   
-                            data[i+2] = avg;   
-                        }
-                        
-                        tempCtx.putImageData(imgData, 0, 0);
-                        document.getElementById('photoPreview').style.backgroundImage = `url(${tempCanvas.toDataURL()})`;
+                        document.getElementById('photoPreview').style.backgroundImage = `url(${tempCanvas.toDataURL('image/jpeg', 0.95)})`;
                     }
                     img.src = event.target.result;
                 }
@@ -286,6 +282,7 @@
             }
         });
 
+        // Signature code
         const canvas = document.getElementById('sigCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
