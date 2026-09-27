@@ -26,7 +26,7 @@
             max-width: 900px;
         }
 
-        /* CARD STYLES */
+        /* CARD STYLES - Nasiako zorony boribory (border-radius) */
         .card-wrapper {
             position: relative;
             width: 856px;
@@ -34,7 +34,8 @@
             margin-bottom: 30px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             background-color: #fff;
-            overflow: hidden;
+            border-radius: 28px; /* Manodidina ny zorony hitovy amin'ny tena karatra */
+            overflow: hidden; /* Manapaka ny sary hiaraka hiodina amin'ny zorony */
         }
 
         .bg-fixed {
@@ -49,7 +50,7 @@
             display: block;
         }
 
-        /* POLICE DE CARACTÈRE */
+        /* POLICE DE CARACTÈRE - Natao mitovy 100% amin'ny original */
         .content-layer {
             position: absolute;
             top: 0;
@@ -58,10 +59,10 @@
             height: 100%;
             z-index: 2;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 23px; 
-            font-weight: bold; 
-            color: #1a1a1a; 
-            letter-spacing: -0.3px; 
+            font-size: 24px; /* Habeny mifanaraka amin'ny modely */
+            font-weight: normal; /* Nesorina ny bold fa natao normal madio */
+            color: #000; /* Mainty tsara */
+            letter-spacing: 0px; 
         }
 
         /* TEXT FIELDS ABSOLUTE POSITIONING */
@@ -82,12 +83,12 @@
         .f-5a { top: 320px; left: 300px; }
         .f-5b { top: 355px; left: 300px; }
 
-        /* PHOTO UPLOAD - ETO NY VAHAAOLANA */
+        /* PHOTO UPLOAD - Tsy nokitihina intsony ny toerany */
         .photo-container {
             position: absolute;
-            top: 135px; /* Manomboka eo ambanin'ny cadre manga */
-            left: 22px; /* Mifanitsy amin'ny cadre manga "D" eo amin'ny ilany ankavia */
-            width: 195px; /* NAHENANA NY SAKANY mba hitovy tanteraka amin'ny sakan'ilay cadre manga, ka TSY HIKASIKA IREO LAHARANA INTSONY! */
+            top: 135px; 
+            left: 22px; 
+            width: 195px; 
             height: 270px;
             z-index: 2;
             
@@ -345,7 +346,7 @@
                 scale: 2.5, 
                 useCORS: true, 
                 allowTaint: true, 
-                backgroundColor: "#ffffff"
+                backgroundColor: "#ffffff" /* Loko fototra any ambadika rehefa midownload */
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'FQN_Card.jpg';
